@@ -45,7 +45,7 @@ const checkLoginAndFetch = (req, res, path) => {
 }
 
 app.get('/', (req, res, next) => {
-    if (!req.session.csrf_string){
+    if (!req.session.access_token){
         res.status(403).json({ error: 'Please log in' });
         return;
     }
@@ -84,7 +84,7 @@ app.all('/redirect', (req, res) => {
             },
             (error, response, body) => {
                 req.session.access_token = qs.parse(body).access_token;
-                res.redirect(process.env.HOST);
+                res.redirect(process.env.CLIENT_HOST);
             }
         );
     } else {
